@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Sukmawati23/Donasi_Buku/main/public/images/LOGO-SDB.png" width="300" alt="Logo Donasi Buku">
+  <img src="https://github.com/Sukmawati23/Donasi_Buku/blob/main/public/LOGO-SDB.png" width="300" alt="Logo Donasi Buku">
 </p>
 
 <h1 align="center">Sistem Donasi Buku</h1>
