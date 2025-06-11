@@ -62,6 +62,6 @@
         <img src="{{ asset('LOGO-SDB.png') }}" alt="Logo Donasi Buku">
     </div>
     <div class="tagline">“Satu Buku, Sejuta Manfaat”</div>
-    <button class="start-btn" onclick="location.href='{{ url('/login') }}'">Mulai →</button>
+    <button class="start-btn" onclick="location.href='/login'">Mulai →</button>
 </body>
 </html>

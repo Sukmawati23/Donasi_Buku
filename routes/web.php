@@ -14,13 +14,13 @@ Route::get('/home', function () {
     return view('home'); 
 })->name('home');
 
+Route::get('/login', function () {
+    return view('login'); 
+})->name('login');
+
 // Register
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
 Route::post('/register', [AuthController::class, 'register']);
-
-// Login
-Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [AuthController::class, 'login']);
 
 // Logout
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
