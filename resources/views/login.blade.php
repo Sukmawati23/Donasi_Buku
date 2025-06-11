@@ -41,7 +41,7 @@
             font-weight: bold;
             margin: 6px 0;
         }
-            input::placeholder {
+        input::placeholder {
             color: #00004f;
             opacity: 0.9;
         }
