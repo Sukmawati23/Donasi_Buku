@@ -3,40 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Selamat Datang</title>
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+
+    <title>Donasi Buku</title>
     <style>
+          @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
         body {
-            font-family: 'Nunito', sans-serif;
-            display: flex;
-            height: 100vh;
             margin: 0;
-            align-items: center;
+            padding: 0;
+            background-color: #00008B; 
+            color: white;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
             justify-content: center;
-            background-color: #f4f4f4;
-            color: #333;
+            align-items: center;
+            height: 100vh;
         }
-        .container {
-            text-align: center;
-        }
-        h1 {
-            font-size: 48px;
+        .logo {
+            width: 200px;
+            height: 200px;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             margin-bottom: 20px;
         }
-        a {
-            text-decoration: none;
-            color: #3490dc;
-            font-size: 18px;
+        .logo img {
+            width: 150px;
         }
+        .tagline {
+            font-size: 18px;
+            font-style: 'Pacifico', cursive;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+        .start-btn {
+            background: transparent;
+            border: 2px solid white; 
+            border-radius: 30px;    
+            padding: 8px 16px;      
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            text-decoration: none;  
+            display: inline-block;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        .start-btn:hover {
+            background-color: white; 
+            color: #00008B;         
+         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Selamat Datang di Sistem Donasi Buku</h1>
-        <p>
-            <a href="{{ route('login') }}">Login</a> |
-            <a href="{{ route('register') }}">Daftar</a>
-        </p>
+    <div class="logo">
+        <img src="{{ asset('LOGO-SDB.png') }}" alt="Logo Donasi Buku">
     </div>
+    <div class="tagline">“Satu Buku, Sejuta Manfaat”</div>
+    <button class="start-btn" onclick="location.href='{{ url('/login') }}'">Mulai →</button>
 </body>
 </html>
