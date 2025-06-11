@@ -5,39 +5,50 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\ResetPasswordController;
 
-// Halaman Home
+// Halaman Utama
 Route::get('/', function () {
     return view('welcome');
 });
 
+// Halaman Home
 Route::get('/home', function () {
-    return view('home'); 
+    return view('home');
 })->name('home');
 
-Route::get('/login', function () {
-    return view('login'); 
-})->name('login');
+// Login
+// web.php
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+
+
+// Logout
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Register
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
 Route::post('/register', [AuthController::class, 'register']);
 
-// Logout
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
-// Dashboard (Hanya bisa diakses jika login)
+// Dashboard (hanya jika login)
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware('auth')->name('dashboard');
 
-// ================================
-// === Reset Password (Lupa) ====
-// ================================
+// ======================================
+//         Fitur Lupa Password
+// ======================================
 
-// Form untuk minta link reset password
-Route::get('/forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
-Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+// Tampilkan form minta reset password
+Route::get('/forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])
+    ->name('password.request');
 
-// Form untuk mengatur ulang password setelah klik link di email
-Route::get('/reset-password/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
-Route::post('/reset-password', [ResetPasswordController::class, 'reset'])->name('password.update');
+// Kirim email link reset
+Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])
+    ->name('password.email');
+
+// Tampilkan form atur ulang password (setelah klik link email)
+Route::get('/reset-password/{token}', [ResetPasswordController::class, 'showResetForm'])
+    ->name('password.reset');
+
+// Proses simpan password baru
+Route::post('/reset-password', [ResetPasswordController::class, 'reset'])
+    ->name('password.update');
