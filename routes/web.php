@@ -10,13 +10,20 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// Halaman
 Route::get('/home', function () {
     return view('home'); 
 })->name('home');
 
+//Halaman Daftar
 Route::get('/login', function () {
     return view('login'); 
 })->name('login');
+
+// Daftar Sebagai
+Route::get('/daftar', function () {
+    return view('auth.daftar');
+})->name('daftar');
 
 // Register
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');

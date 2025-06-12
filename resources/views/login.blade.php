@@ -101,7 +101,7 @@
             <a href="#" class="forgot">Lupa kata sandi?</a>
             <button type="submit">Masuk</button>
             <div class="divider">atau</div>
-            <button type="button">Daftar</button>
+            <button type="button" onclick="window.location.href='{{ route('daftar') }}'">Daftar</button>
         </form>
     </div>
 </body>
