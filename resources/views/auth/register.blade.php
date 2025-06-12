@@ -14,8 +14,19 @@
     @endif
 
     {{-- Form registrasi --}}
-    <form method="POST" action="{{ route('register') }}">
+    <form method="POST" action="{{ route('register.post') }}">
         @csrf
+
+        {{-- Pilih Peran --}}
+        <label for="role">Daftar sebagai:</label><br>
+        <select name="role" required>
+            <option value="">-- Pilih Peran --</option>
+            <option value="donatur" {{ old('role') == 'donatur' ? 'selected' : '' }}>Donatur</option>
+            <option value="penerima" {{ old('role') == 'penerima' ? 'selected' : '' }}>Penerima</option>
+        </select><br>
+        @error('role')
+            <small style="color: red">{{ $message }}</small><br>
+        @enderror
 
         <input type="text" name="name" placeholder="Nama Lengkap" value="{{ old('name') }}" required><br>
         @error('name')
@@ -24,6 +35,16 @@
 
         <input type="email" name="email" placeholder="Email" value="{{ old('email') }}" required><br>
         @error('email')
+            <small style="color: red">{{ $message }}</small><br>
+        @enderror
+
+        <input type="text" name="alamat" placeholder="Alamat" value="{{ old('alamat') }}" required><br>
+        @error('alamat')
+            <small style="color: red">{{ $message }}</small><br>
+        @enderror
+
+        <input type="text" name="telepon" placeholder="Nomor Telepon" value="{{ old('telepon') }}" required><br>
+        @error('telepon')
             <small style="color: red">{{ $message }}</small><br>
         @enderror
 

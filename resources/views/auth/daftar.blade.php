@@ -67,12 +67,12 @@
     <div class="container">
         <h2>Daftarkan sebagai</h2>
         <p>Pilih jenis akun Anda untuk membuat akun baru</p>
-        <a href="{{ url('/register/donatur') }}" class="button">
+        <a href="{{ route('register.donatur') }}" class="button">
             <i class="fas fa-user icon"></i> Donatur
         </a>
-        <a href="{{ url('/register/penerima') }}" class="button">
+        <a href="{{ route('register.penerima') }}" class="button">
             <i class="fas fa-hand-holding-heart icon"></i> Penerima
-        </a>
+        </a>        
     </div>
 </body>
 </html>

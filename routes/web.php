@@ -31,6 +31,28 @@ Route::get('/daftar', function () {
     return view('auth.daftar');
 })->name('daftar');
 
+// Halaman daftar sebagai Donatur
+Route::get('/daftar-donatur', function () {
+    return view('auth.donatur');
+})->name('daftar.donatur');
+
+// Halaman daftar sebagai Penerima
+Route::get('/daftar-penerima', function () {
+    return view('auth.penerima');
+})->name('daftar.penerima');
+// Halaman daftar donatur
+Route::get('/register/donatur', function () {
+    return view('auth.halDaf-donatur');
+})->name('register.donatur');
+
+// Halaman daftar penerima
+Route::get('/register/penerima', function () {
+    return view('auth.halDaf-penerima');
+})->name('register.penerima');
+
+// Kirim form register ke controller
+Route::post('/register', [AuthController::class, 'register'])->name('register.post');
+
 // Dashboard - hanya bisa diakses oleh user yang login
 Route::get('/dashboard', function () {
     return view('dashboard');
