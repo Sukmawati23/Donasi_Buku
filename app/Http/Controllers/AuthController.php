@@ -9,24 +9,24 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    // Tampilkan halaman login kustom
+    // Menampilkan form login
     public function showLoginForm()
     {
-        return view('auth.login'); // pastikan view ini sesuai file kamu
+        return view('login'); // Pastikan file login.blade.php ada di resources/views/
     }
 
-    // Tampilkan halaman registrasi kustom
+    // Menampilkan form registrasi
     public function showRegisterForm()
     {
-        return view('auth.register'); // pastikan view ini sesuai
+        return view('auth.register'); // Pastikan file register.blade.php ada di resources/views/auth/
     }
 
-    // Proses registrasi user baru
+    // Proses registrasi
     public function register(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email',
+            'name'     => 'required|string|max:255',
+            'email'    => 'required|string|email|max:255|unique:users,email',
             'password' => 'required|string|min:6|confirmed',
         ]);
 
@@ -51,15 +51,15 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->intended('/dashboard'); // redirect ke dashboard atau sebelumnya
+            return redirect()->intended(route('dashboard'));
         }
 
         return back()->withErrors([
             'email' => 'Email atau password salah.',
-        ])->withInput(); // agar email tetap terisi
+        ])->withInput();
     }
 
-    // Logout user
+    // Proses logout
     public function logout(Request $request)
     {
         Auth::logout();
@@ -67,6 +67,6 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/login')->with('success', 'Anda berhasil logout');
+        return redirect()->route('login')->with('success', 'Anda berhasil logout.');
     }
 }
