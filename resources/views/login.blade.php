@@ -86,9 +86,6 @@
             color: white; 
             text-decoration: none; 
         }
-        .forgot:hover {
-            text-decoration: underline;
-        }
     </style>
 </head>
 <body>
@@ -98,14 +95,13 @@
     <div class="container">
         <h2>Masuk atau Daftar Akun</h2>
         <p class="desc">Silakan masuk akun Anda atau buat akun baru untuk memulai donasi buku</p>
-        <form method="POST" action="{{ route('login') }}" autocomplete="off">
-            @csrf
-            <input type="email" name="email" placeholder="Email" required>
-            <input type="password" name="password" placeholder="Password" required>
-            <a href="{{ route('password.request') }}" class="forgot">Lupa kata sandi?</a>
+        <form autocomplete="off">
+            <input type="text" name="fakeemail" placeholder="Email" autocomplete="off">
+            <input type="password" name="fakepassword" placeholder="Password" autocomplete="new-password">
+            <a href="#" class="forgot">Lupa kata sandi?</a>
             <button type="submit">Masuk</button>
             <div class="divider">atau</div>
-            <button type="button" onclick="location.href='{{ route('register') }}'">Daftar</button>
+            <button type="button" onclick="window.location.href='{{ route('daftar') }}'">Daftar</button>
         </form>
     </div>
 </body>
