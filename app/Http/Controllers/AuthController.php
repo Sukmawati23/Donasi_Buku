@@ -12,13 +12,13 @@ class AuthController extends Controller
     // Menampilkan form login
     public function showLoginForm()
     {
-        return view('login'); // Pastikan file login.blade.php ada di resources/views/
+        return view('login'); // Sesuaikan dengan lokasi file login
     }
 
     // Menampilkan form registrasi
     public function showRegisterForm()
     {
-        return view('auth.register'); // Pastikan file register.blade.php ada di resources/views/auth/
+        return view('auth.register'); // Sesuaikan dengan lokasi file register
     }
 
     // Proses registrasi
@@ -27,12 +27,18 @@ class AuthController extends Controller
         $request->validate([
             'name'     => 'required|string|max:255',
             'email'    => 'required|string|email|max:255|unique:users,email',
+            'alamat'   => 'required|string|max:255',
+            'telepon'  => 'required|string|max:15',
+            'role'     => 'required|in:donatur,penerima',
             'password' => 'required|string|min:6|confirmed',
         ]);
 
         $user = User::create([
             'name'     => $request->name,
             'email'    => $request->email,
+            'alamat'   => $request->alamat,
+            'telepon'  => $request->telepon,
+            'role'     => $request->role,
             'password' => Hash::make($request->password),
         ]);
 
