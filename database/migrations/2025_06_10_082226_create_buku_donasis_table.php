@@ -12,16 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('buku_donasis', function (Blueprint $table) {
-            $table->unsignedBigInteger('idBuku');
-            $table->unsignedBigInteger('idDonasi');
+            $table->unsignedBigInteger('buku_id');
+            $table->unsignedBigInteger('donasi_id');
             $table->timestamps();
 
             // Foreign keys
-            $table->foreign('idBuku')->references('idBuku')->on('bukus')->onDelete('cascade');
-            $table->foreign('idDonasi')->references('idDonasi')->on('donasis')->onDelete('cascade');
+            $table->foreign('buku_id')->references('id')->on('bukus')->onDelete('cascade');
+            $table->foreign('donasi_id')->references('id')->on('donasis')->onDelete('cascade');
 
             // Composite primary key
-            $table->primary(['idBuku', 'idDonasi']);
+            $table->primary(['buku_id', 'donasi_id']);
         });
     }
 

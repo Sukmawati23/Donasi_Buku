@@ -7,7 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, Notifiable;
 
@@ -15,10 +15,19 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'alamat',
+        'telepon',
+        'role',      // ✅ penting: agar bisa menyimpan role donatur/penerima/admin
+        'id_card',   // ✅ jika kamu gunakan ID Card dari form
     ];
 
     protected $hidden = [
         'password',
         'remember_token',
+    ];
+
+    // ✅ Konversi otomatis field tertentu jadi format yang sesuai
+    protected $casts = [
+        'email_verified_at' => 'datetime',
     ];
 }

@@ -101,6 +101,7 @@
         </div>
         <h2>Daftar Sebagai Donatur</h2>
         <form method="POST" action="{{ route('register.post') }}">
+            @csrf <!-- WAJIB agar tidak error 419 -->
             <input type="hidden" name="role" value="donatur">
 
             <div class="form-group">
@@ -120,7 +121,7 @@
 
             <div class="form-group">
                 <label><span>🔒</span>Kata Sandi</label>
-                <input type="text" name="password" required>
+                <input type="password" name="password" required>
             </div>
 
             <div class="form-group">
