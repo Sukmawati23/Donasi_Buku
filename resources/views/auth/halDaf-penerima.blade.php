@@ -1,4 +1,4 @@
-<!-- resources/views/auth/halDaf-donatur.blade.php -->
+<!-- resources/views/auth/halDaf-penerima.blade.php -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -101,6 +101,7 @@
         </div>
         <h2>Daftar Sebagai Penerima</h2>
         <form method="POST" action="{{ route('register.post') }}">
+            @csrf <!-- Penting untuk mencegah error 419 -->
             <input type="hidden" name="role" value="penerima">
 
             <div class="form-group">
@@ -120,7 +121,7 @@
 
             <div class="form-group">
                 <label><span>🔒</span>Kata Sandi</label>
-                <input type="text" name="password" required>
+                <input type="password" name="password" required>
             </div>
 
             <div class="form-group">

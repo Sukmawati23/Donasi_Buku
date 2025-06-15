@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\ResetPasswordController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
 
 // Halaman utama (Welcome)
 Route::get('/', function () {
@@ -73,3 +75,20 @@ Route::get('/reset-password/{token}', [ResetPasswordController::class, 'showRese
 
 // Menyimpan password baru
 Route::post('/reset-password', [ResetPasswordController::class, 'reset'])->name('password.update');
+
+// Menampilkan halaman "Verifikasi Email Anda"
+Route::get('/email/verify', function () {
+    return view('auth.verif-email');
+})->middleware('auth')->name('verification.notice');
+
+// Proses verifikasi email ketika user klik link dari email
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill(); // Menandai email sebagai terverifikasi
+    return view('auth.email-terverifikasi');
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
+// Kirim ulang email verifikasi
+Route::post('/email/verification-notification', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+    return back()->with('status', 'verification-link-sent');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');

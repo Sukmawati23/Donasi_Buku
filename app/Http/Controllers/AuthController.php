@@ -6,19 +6,20 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Auth\Events\Registered;
 
 class AuthController extends Controller
 {
-    // Menampilkan form login
+    // Tampilkan form login
     public function showLoginForm()
     {
-        return view('login'); // Sesuaikan dengan lokasi file login
+        return view('login'); // Sesuaikan dengan lokasi file view
     }
 
-    // Menampilkan form registrasi
+    // Tampilkan form registrasi
     public function showRegisterForm()
     {
-        return view('auth.register'); // Sesuaikan dengan lokasi file register
+        return view('auth.register'); // Sesuaikan dengan lokasi file view
     }
 
     // Proses registrasi
@@ -29,7 +30,6 @@ class AuthController extends Controller
             'email'    => 'required|string|email|max:255|unique:users,email',
             'alamat'   => 'required|string|max:255',
             'telepon'  => 'required|string|max:15',
-            'role'     => 'required|in:donatur,penerima',
             'password' => 'required|string|min:6|confirmed',
         ]);
 
@@ -38,13 +38,13 @@ class AuthController extends Controller
             'email'    => $request->email,
             'alamat'   => $request->alamat,
             'telepon'  => $request->telepon,
-            'role'     => $request->role,
             'password' => Hash::make($request->password),
         ]);
 
+        event(new Registered($user)); // Kirim email verifikasi
         Auth::login($user);
 
-        return redirect()->route('dashboard')->with('success', 'Registrasi berhasil!');
+        return redirect()->route('verification.notice')->with('success', 'Registrasi berhasil! Silakan verifikasi email Anda.');
     }
 
     // Proses login
@@ -57,6 +57,13 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
+
+            if (!Auth::user()->hasVerifiedEmail()) {
+                Auth::logout();
+                return redirect()->route('verification.notice')
+                    ->withErrors(['email' => 'Silakan verifikasi email Anda terlebih dahulu.']);
+            }
+
             return redirect()->intended(route('dashboard'));
         }
 
