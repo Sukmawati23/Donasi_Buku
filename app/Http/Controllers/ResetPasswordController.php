@@ -9,17 +9,28 @@ use Illuminate\Support\Str;
 
 class ResetPasswordController extends Controller
 {
-    public function showResetForm($token)
+    /**
+     * Tampilkan form reset password.
+     */
+    public function showResetForm(Request $request, $token)
     {
-        return view('auth.reset-password', ['token' => $token]);
+        return view('auth.reset-password', [
+            'token' => $token,
+            'email' => $request->email,
+        ]);
     }
 
+    /**
+     * Proses reset password.
+     */
     public function reset(Request $request)
     {
         $request->validate([
-            'token' => 'required',
-            'email' => 'required|email',
-            'password' => 'required|confirmed|min:6',
+            'token'    => 'required',
+            'email'    => 'required|email|exists:users,email',
+            'password' => 'required|string|confirmed|min:6',
+        ], [
+            'email.exists' => 'Email tidak ditemukan dalam sistem.',
         ]);
 
         $status = Password::reset(
@@ -33,7 +44,7 @@ class ResetPasswordController extends Controller
         );
 
         return $status === Password::PASSWORD_RESET
-            ? redirect()->route('login')->with('status', __($status))
+            ? redirect()->route('login')->with('status', 'Password berhasil direset. Silakan login.')
             : back()->withErrors(['email' => [__($status)]]);
     }
 }

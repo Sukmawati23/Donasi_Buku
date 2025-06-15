@@ -31,6 +31,9 @@
             width: 100%;
             max-width: 420px;
             text-align: center;
+            background-color: white;
+            color: #000049;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
         }
 
         h2 {
@@ -46,17 +49,17 @@
         input {
             width: 95%;
             padding: 12px;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
             border-radius: 8px;
             border: none;
-            background-color: white;
+            background-color: #f2f2f2;
             color: #000049;
             font-weight: bold;
         }
 
         input::placeholder {
-            color: #00004f;
-            opacity: 0.9;
+            color: #000049;
+            opacity: 0.8;
         }
 
         button {
@@ -64,15 +67,16 @@
             padding: 10px;
             border-radius: 8px;
             border: none;
-            background-color: white;
-            color: #00008B;
+            background-color: #00008B;
+            color: white;
             font-weight: bold;
             cursor: pointer;
             font-family: 'Poppins', sans-serif;
+            transition: background-color 0.2s ease;
         }
 
         button:hover {
-            background-color: #eaeaea;
+            background-color: #00006B;
         }
 
         .back-link {
@@ -80,7 +84,7 @@
             display: block;
             font-size: 12px;
             text-align: center;
-            color: white;
+            color: #000049;
             text-decoration: none;
         }
 
@@ -88,6 +92,17 @@
             text-decoration: underline;
         }
 
+        .message-success {
+            color: green;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .message-error {
+            color: red;
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
@@ -99,15 +114,23 @@
         <h2>Lupa Kata Sandi</h2>
         <p>Masukkan email Anda untuk mengatur ulang kata sandi</p>
 
+        {{-- Pesan sukses jika email berhasil dikirim --}}
         @if (session('status'))
-            <div style="color: lightgreen; font-size: 14px; margin-bottom: 10px;">
+            <div class="message-success">
                 {{ session('status') }}
             </div>
         @endif
 
+        {{-- Form lupa kata sandi --}}
         <form method="POST" action="{{ route('password.email') }}">
             @csrf
-            <input type="email" name="email" placeholder="Email yang terdaftar" required>
+            <input type="email" name="email" placeholder="Email yang terdaftar" value="{{ old('email') }}" required>
+
+            {{-- Tampilkan error validasi --}}
+            @error('email')
+                <div class="message-error">{{ $message }}</div>
+            @enderror
+
             <button type="submit">KIRIM</button>
         </form>
 
