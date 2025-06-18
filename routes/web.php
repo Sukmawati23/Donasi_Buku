@@ -6,6 +6,10 @@ use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\ResetPasswordController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
+use App\Http\Controllers\DonaturController;
+use App\Http\Controllers\DonasiController;
+use App\Http\Controllers\ProfileController;
+
 
 // Halaman Utama
 Route::get('/', fn() => view('welcome'));
@@ -83,3 +87,20 @@ Route::post('/email/verification-notification', function (Request $request) {
     return back()->with('status', 'Link verifikasi telah dikirim.');
 })->middleware(['auth', 'throttle:6,1'])
     ->name('verification.send');
+
+Route::middleware(['auth'])->group(function () {
+    // Ini route GET untuk menampilkan halaman form donasi
+    Route::get('/dashboard.donatur', [DonasiController::class, 'index'])->name('dashboard.donatur');
+
+    // Ini route POST untuk submit form donasi
+    Route::post('/dashboard.donatur', [DonasiController::class, 'store'])->name('donatur.donasi');
+});
+
+// Route untuk halaman donasi berhasil
+Route::get('/donasi.success', function () {
+    return view('dashboard.donatur_success');
+})->name('donasi.success');
+
+Route::get('/donasi/form', [DonasiController::class, 'create'])->name('donasi.form');
+
+Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
