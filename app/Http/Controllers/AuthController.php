@@ -48,29 +48,25 @@ class AuthController extends Controller
     }
 
     // Proses login
-    public function login(Request $request)
-    {
-        $credentials = $request->validate([
-            'email'    => 'required|email',
-            'password' => 'required|string',
-        ]);
+   // app/Http/Controllers/AuthController.php
 
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
+public function login(Request $request)
+{
+    $credentials = $request->only('email', 'password');
 
-            if (!Auth::user()->hasVerifiedEmail()) {
-                Auth::logout();
-                return redirect()->route('verification.notice')
-                    ->withErrors(['email' => 'Silakan verifikasi email Anda terlebih dahulu.']);
-            }
+    if (Auth::attempt($credentials)) {
+        $request->session()->regenerate();
 
-            return redirect()->intended(route('dashboard'));
-        }
-
-        return back()->withErrors([
-            'email' => 'Email atau password salah.',
-        ])->withInput();
+        // Redirect langsung ke dashboard donatur
+        return redirect()->route('dashboard.donatur');
     }
+
+    return back()->withErrors([
+        'email' => 'Email atau password salah.',
+    ]);
+}
+
+
 
     // Proses logout
     public function logout(Request $request)
