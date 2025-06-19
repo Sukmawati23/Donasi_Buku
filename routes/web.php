@@ -24,6 +24,10 @@ Route::get('/dashboard', fn() => view('dashboard'))
     ->middleware('auth')
     ->name('dashboard');
 
+Route::get('/akun-aktif', function () {
+    return view('auth.akun-aktif'); // pastikan file blade-nya ada
+})->middleware('auth')->name('akun.aktif');
+
 // =================== AUTH ======================
 
 // Login
@@ -78,9 +82,10 @@ Route::get('/email/verify', fn() => view('auth.verif-email'))
 
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill();
-    return redirect()->route('dashboard')->with('status', 'Email berhasil diverifikasi!');
-})->middleware(['auth', 'signed'])
-    ->name('verification.verify');
+
+    return redirect()->route('akun.aktif')->with('status', 'Email berhasil diverifikasi!');
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
 
 Route::post('/email/verification-notification', function (Request $request) {
     $request->user()->sendEmailVerificationNotification();
