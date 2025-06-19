@@ -17,16 +17,16 @@ class PenerimaController extends Controller
         return view('auth.register-penerima'); // Pastikan ini ada
     }
     public function index()
-{
-     $pengajuan = Pengajuan::all();
-   return view('dashboard.penerima', compact('pengajuan'));
- // ⬅️ pastikan view ini ada
-}
-public function daftarBuku()
-{
-    $bukus = Buku::where('user_id', Auth::id())->get(); // hanya buku dari user saat ini
-    return view('dashboard.daftar_buku', compact('bukus'));
-}
+    {
+        $pengajuan = Pengajuan::all();
+        return view('dashboard.penerima', compact('pengajuan'));
+        // ⬅️ pastikan view ini ada
+    }
+    public function daftarBuku()
+    {
+        $bukus = Buku::where('user_id', Auth::id())->get(); // hanya buku dari user saat ini
+        return view('dashboard.daftar_buku', compact('bukus'));
+    }
 
 
     public function store(Request $request)

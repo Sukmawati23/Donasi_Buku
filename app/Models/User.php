@@ -30,10 +30,4 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
-    public function bukus()
-{
-    return $this->hasMany(\App\Models\Buku::class, 'idDonatur', 'id');
-}
-
 }
