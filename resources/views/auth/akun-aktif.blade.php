@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Verifikasi Email Anda</title>
+    <title>Akun Anda Telah Aktif</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 
@@ -13,7 +13,7 @@
         body {
             margin: 0;
             font-family: 'Poppins', sans-serif;
-            background-color: #00008B;
+            background-color: #000080;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -22,7 +22,7 @@
 
         .card {
             background-color: white;
-            color: #00008B;
+            color: #000080;
             padding: 30px 25px;
             border-radius: 20px;
             width: 100%;
@@ -39,6 +39,7 @@
         .card h2 {
             font-size: 20px;
             margin-bottom: 12px;
+            color: #000080;
         }
 
         .card p {
@@ -58,44 +59,24 @@
             text-align: center;
             text-decoration: none;
             transition: background-color 0.3s;
-            margin-bottom: 10px;
         }
 
         .btn-primary {
-            background-color: #00008B;
+            background-color: #000080;
             color: white;
         }
 
         .btn-primary:hover {
             background-color: #00006B;
         }
-
-        .btn-secondary {
-            background-color: #808080;
-            color: white;
-        }
-
-        .btn-secondary:hover {
-            background-color: #666666;
-        }
     </style>
 </head>
 <body>
     <div class="card">
-        <img src="{{ asset('email-icon.png') }}" alt="Email Icon">
-        <h2>Verifikasi Email Anda</h2>
-        <p>Silakan cek email Anda dan klik tautan verifikasi untuk melanjutkan.</p>
-
-        @if (session('status') == 'verification-link-sent')
-            <p><strong>Email verifikasi baru</strong> telah dikirim ke alamat email Anda.</p>
-        @endif
-
-        <form method="POST" action="{{ route('verification.send') }}">
-            @csrf
-            <button type="submit" class="btn btn-primary">Kirim Ulang Email Verifikasi</button>
-        </form>
-
-        <a href="{{ route('login') }}" class="btn btn-secondary">Kembali ke Halaman Login</a>
+        <img src="{{ asset('verified-icon.png') }}" alt="Verified Icon">
+        <h2>Akun Anda Telah Aktif!</h2>
+        <p>Selamat! Akun Anda telah berhasil diaktifkan. Silakan login untuk mulai menggunakan sistem.</p>
+        <a href="{{ route('login') }}" class="btn btn-primary">Masuk ke Akun</a>
     </div>
 </body>
 </html>

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\Donatur;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Registered;
@@ -14,13 +13,13 @@ class AuthController extends Controller
     // Tampilkan form login
     public function showLoginForm()
     {
-        return view('login'); // Sesuaikan dengan file view login
+        return view('login'); // Sesuaikan dengan lokasi file view
     }
 
     // Tampilkan form registrasi
     public function showRegisterForm()
     {
-        return view('auth.register'); // Sesuaikan dengan file view register
+        return view('auth.register'); // Sesuaikan dengan lokasi file view
     }
 
     // Proses registrasi
@@ -28,11 +27,10 @@ class AuthController extends Controller
     {
         $request->validate([
             'name'     => 'required|string|max:255',
-            'email'    => 'required|email|unique:users',
+            'email'    => 'required|string|email|max:255|unique:users,email',
             'alamat'   => 'required|string|max:255',
             'telepon'  => 'required|string|max:15',
-            'password' => 'required|string|min:8|confirmed',
-            'role'     => 'required|in:donatur,penerima',
+            'password' => 'required|string|min:6|confirmed',
         ]);
 
         $user = User::create([
@@ -41,21 +39,17 @@ class AuthController extends Controller
             'alamat'   => $request->alamat,
             'telepon'  => $request->telepon,
             'password' => Hash::make($request->password),
-            'role'     => $request->role,
         ]);
 
-        event(new Registered($user));
+        event(new Registered($user)); // Kirim email verifikasi
         Auth::login($user);
 
-        // Redirect sesuai peran
-        if ($user->role === 'penerima') {
-            return redirect()->route('dashboard.penerima');
-        } else {
-            return redirect()->route('dashboard.donatur');
-        }
+        return redirect()->route('verification.notice')->with('success', 'Registrasi berhasil! Silakan verifikasi email Anda.');
     }
 
     // Proses login
+    // app/Http/Controllers/AuthController.php
+
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
@@ -63,20 +57,16 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            $user = Auth::user();
-            $donatur = Donatur::where('email', $user->email)->first();
-
-            if ($donatur) {
-                session(['idDonatur' => $donatur->idDonatur]);
-            }
-
-            return redirect()->route($user->role === 'penerima' ? 'dashboard.penerima' : 'dashboard.donatur');
+            // Redirect langsung ke dashboard donatur
+            return redirect()->route('dashboard.donatur');
         }
 
         return back()->withErrors([
             'email' => 'Email atau password salah.',
         ]);
     }
+
+
 
     // Proses logout
     public function logout(Request $request)
