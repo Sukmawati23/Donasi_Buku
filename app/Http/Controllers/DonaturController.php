@@ -1,25 +1,26 @@
 <?php 
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Donasi;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Carbon;
 
 class DonaturController extends Controller
 {
-    public function index()
-    {
-        $userId = auth()->id();
-        $donasi = Donasi::where('user_id', $userId)->get();
+  public function index()
+{
+    $donaturId = session('idDonatur');
 
-        $statusCount = [
-            'menunggu' => $donasi->where('status', 'Menunggu')->count(),
-            'diterima' => $donasi->where('status', 'Diterima')->count(),
-        ];
+    $donasi = Donasi::where('idDonatur', $donaturId)->get(); // ✅ Tambahkan ini
+    $statusCount = [
+        'menunggu' => $donasi->where('status', 'Menunggu')->count(),
+        'diterima' => $donasi->where('status', 'Diterima')->count(),
+    ];
 
-        return view('Dashboard.Donatur', compact('donasi', 'statusCount'));
-    }
+    return view('Dashboard.Donatur', compact('donasi', 'statusCount'));
+}
+
 
     public function store(Request $request)
     {
@@ -38,15 +39,14 @@ class DonaturController extends Controller
         }
 
         Donasi::create([
-            'user_id' => auth()->id(),
+            'idDonatur' => session('idDonatur'),
             'judul_buku' => $request->judul_buku,
             'kategori' => $request->kategori,
             'kondisi' => $request->kondisi,
-            'jumlah' => $request->jumlah, 
+            'jumlah' => $request->jumlah,
             'foto' => $path,
             'status' => 'Menunggu',
-            'tanggal' => $request->tanggal ?? Carbon::now(), 
-
+            'tanggal' => $request->tanggal ?? Carbon::now(),
         ]);
 
         return redirect()->route('dashboard.donatur')->with('success', 'Donasi berhasil ditambahkan.');

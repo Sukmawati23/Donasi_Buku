@@ -10,28 +10,26 @@ class Donasi extends Model
 {
     use HasFactory;
 
-    protected $table = 'donasis'; // Sesuaikan dengan nama tabel jika tidak default (yaitu 'donasis')
+    protected $table = 'donasis';
 
     protected $fillable = [
-        'user_id',
+        'idDonatur',     
         'judul_buku',
         'kategori',
         'kondisi',
         'foto',
         'status',
+        'jumlah',         
+        'tanggal',        
     ];
 
-    /**
-     * Relasi: Donasi dimiliki oleh satu User (Donatur)
-     */
-    public function user()
+    // Relasi ke model Donatur
+    public function donatur()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Donatur::class, 'idDonatur', 'idDonatur');
     }
 
-    /**
-     * Dapatkan URL foto donasi
-     */
+    // Akses foto
     public function getFotoUrlAttribute()
     {
         return $this->foto ? Storage::url($this->foto) : null;

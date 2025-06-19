@@ -8,7 +8,8 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use App\Http\Controllers\DonaturController;
 use App\Http\Controllers\DonasiController;
-use App\Http\Controllers\ProfileController;
+//use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PenerimaController;
 
 
 // Halaman Utama
@@ -101,6 +102,14 @@ Route::get('/donasi.success', function () {
     return view('dashboard.donatur_success');
 })->name('donasi.success');
 
-Route::get('/donasi/form', [DonasiController::class, 'create'])->name('donasi.form');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard.penerima', [PenerimaController::class, 'index'])->name('dashboard.penerima');
+    Route::get('/daftar-buku', [PenerimaController::class, 'daftarBuku'])->name('penerima.daftarBuku');
+});
 
-Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+Route::resource('buku', BukuController::class)->middleware('auth');
+
+
+//Route::get('/donasi/form', [DonasiController::class, 'create'])->name('donasi.form');
+
+//Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
