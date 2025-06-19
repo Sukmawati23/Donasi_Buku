@@ -4,17 +4,39 @@ namespace App\Http\Controllers;
 
 use App\Models\Donasi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class DonasiController extends Controller
 {
+    /**
+     * Tampilkan dashboard donatur beserta data donasi miliknya
+     */
+    public function index()
+    {
+        // Ambil semua donasi berdasarkan idDonatur dari session
+        $donasi = Donasi::where('idDonatur', session('idDonatur'))->get();
+
+        // Hitung jumlah status
+        $statusCount = [
+            'menunggu' => $donasi->where('status', 'menunggu')->count(),
+            'diterima' => $donasi->where('status', 'diterima')->count(),
+        ];
+
+        return view('Dashboard.Donatur', compact('donasi', 'statusCount'));
+    }
+
+    /**
+     * Simpan donasi buku baru
+     */
     public function store(Request $request)
     {
-        // Validasi data
         $request->validate([
             'judul' => 'required|string|max:255',
             'kategori' => 'required|string',
-            'deskripsi' => 'nullable|string',
+            'kondisi' => 'nullable|string',
+            'jumlah' => 'required|integer|min:1',
             'foto' => 'nullable|image|max:2048',
+            'tanggal' => 'nullable|date',
         ]);
 
         $fotoPath = null;
@@ -23,25 +45,16 @@ class DonasiController extends Controller
         }
 
         Donasi::create([
-            'judul' => $request->judul,
+            'idDonatur' => session('idDonatur'), // ✅ sesuai struktur tabel
+            'judul_buku' => $request->judul,
             'kategori' => $request->kategori,
-            'deskripsi' => $request->deskripsi,
+            'kondisi' => $request->kondisi,
+            'jumlah' => $request->jumlah,
             'foto' => $fotoPath,
+            'status' => 'menunggu',
+            'tanggal' => $request->tanggal ?? Carbon::now(),
         ]);
 
-        return redirect()->route('donasi.success');
+        return redirect()->route('dashboard.donatur')->with('success', 'Donasi berhasil ditambahkan.');
     }
-
-    public function index()
-{
-    $donasi = Donasi::where('user_id', auth()->id())->get();
-
-    // Hitung status pengiriman (anggap kolom 'status' di tabel donasi ada)
-    $statusCount = [
-        'menunggu' => $donasi->where('status', 'menunggu')->count(),
-        'diterima' => $donasi->where('status', 'diterima')->count(),
-    ];
-
-    return view('Dashboard.Donatur', compact('donasi', 'statusCount'));
-}
 }
