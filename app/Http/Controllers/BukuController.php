@@ -7,9 +7,16 @@ use App\Models\Buku;
 
 class BukuController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-       $bukus = Buku::where('idDonatur', session('idDonatur'))->get();
+        $idDonatur = session('idDonatur');
+        $cari = $request->input('search');
+
+        $bukus = Buku::where('idDonatur', $idDonatur)
+            ->when($cari, function ($query, $cari) {
+                return $query->where('judul', 'like', "%{$cari}%");
+            })->get();
+
         return view('dashboard.daftar_buku', compact('bukus'));
     }
 

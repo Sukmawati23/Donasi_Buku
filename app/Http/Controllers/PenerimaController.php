@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Pengajuan;
 use App\Models\Buku;
+use App\Models\Donasi;
 
 class PenerimaController extends Controller
 {
@@ -24,8 +25,8 @@ class PenerimaController extends Controller
     }
     public function daftarBuku()
     {
-        $bukus = Buku::where('user_id', Auth::id())->get(); // hanya buku dari user saat ini
-        return view('dashboard.daftar_buku', compact('bukus'));
+        $donasis = Donasi::where('status', 'diterima')->get();
+        return view('dashboard.daftar_buku', compact('donasis'));
     }
 
 

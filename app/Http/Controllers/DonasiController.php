@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Donasi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DonasiController extends Controller
 {
@@ -23,6 +24,7 @@ class DonasiController extends Controller
         }
 
         Donasi::create([
+            'user_id' => Auth::id(), // ✅ PENTING
             'judul' => $request->judul,
             'kategori' => $request->kategori,
             'deskripsi' => $request->deskripsi,

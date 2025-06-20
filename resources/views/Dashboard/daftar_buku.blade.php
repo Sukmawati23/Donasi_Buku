@@ -1,163 +1,130 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Daftar Buku</title>
-  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: sans-serif;
-    }
+@extends('layouts.app')
 
+@section('content')
+<style>
     body {
-      background-color: #e0f0ff;
-      padding: 20px;
+        background-color: #000080;
+        color: white;
+        font-family: sans-serif;
     }
 
-    .container {
-      max-width: 1000px;
-      margin: auto;
-      background-color: #000080;
-      color: white;
-      border-radius: 10px;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      min-height: 90vh;
+    .container-custom {
+        padding: 20px;
+        min-height: 100vh;
     }
 
-    .header {
-      font-size: 24px;
-      font-weight: bold;
-      margin-bottom: 20px;
-      color: white;
+    .title {
+        font-size: 22px;
+        font-weight: bold;
+        margin-bottom: 20px;
     }
 
     .search-bar {
-      width: 100%;
-      padding: 10px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-      font-size: 16px;
-      margin-bottom: 20px;
-    }
-
-    .table-container {
-      background-color: #2e2eec;
-      border-radius: 8px;
-      padding: 15px;
-      overflow-x: auto;
-      flex-grow: 1;
+        width: 100%;
+        padding: 8px 10px;
+        margin-bottom: 20px;
+        border: none;
+        border-radius: 5px;
+        font-size: 14px;
     }
 
     table {
-      width: 100%;
-      border-collapse: collapse;
+        width: 100%;
+        background-color: #2e2eec;
+        border-radius: 10px;
+        overflow: hidden;
+        font-size: 14px;
+    }
+
+    th, td {
+        padding: 10px;
+        text-align: left;
+        color: white;
     }
 
     th {
-      text-align: left;
-      padding: 10px;
-      font-size: 14px;
-      color: white;
-    }
-
-    td {
-      padding: 10px;
-      font-size: 14px;
-      color: white;
+        font-weight: bold;
+        font-size: 13px;
     }
 
     .btn-kembali {
-      background-color: #1e90ff;
-      color: white;
-      padding: 10px 18px;
-      border: none;
-      border-radius: 6px;
-      font-size: 16px;
-      cursor: pointer;
-      margin-top: 20px;
-      align-self: start;
+        margin-top: 20px;
+        padding: 10px 16px;
+        background-color: #0000ff;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 14px;
+        cursor: pointer;
     }
 
     .bottom-nav {
-      display: flex;
-      justify-content: center;
-      gap: 40px;
-      background-color: #dcdcdc;
-      padding: 14px;
-      border-radius: 0 0 10px 10px;
-      margin-top: 30px;
+        margin-top: 40px;
+        background-color: #dcdcdc;
+        padding: 12px;
+        display: flex;
+        justify-content: space-around;
+        border-radius: 0 0 10px 10px;
     }
 
     .bottom-nav a {
-      color: black;
-      font-size: 24px;
-      text-decoration: none;
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      .header {
         font-size: 20px;
-      }
-
-      .btn-kembali {
-        font-size: 14px;
-        padding: 8px 14px;
-      }
-
-      th, td {
-        font-size: 13px;
-      }
+        color: black;
     }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <div class="header">Daftar Buku</div>
+</style>
 
-    <input type="text" class="search-bar" placeholder="Cari ..." />
+<div class="container container-custom">
+    <div class="title">Daftar Buku</div>
 
-    <div class="table-container">
-      <table>
-        <thead>
-          <tr>
-            <th>id_buku</th>
-            <th>judul</th>
-            <th>penulis</th>
-            <th>Kategori</th>
-            <th>statusBuku</th>
-            <th>penerbit</th>
-            <th>tahunTerbit</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- Contoh baris -->
-          <tr>
-            <td>001</td>
-            <td>Bumi</td>
-            <td>Tere Liye</td>
-            <td>Fiksi</td>
-            <td>Tersedia</td>
-            <td>Gramedia</td>
-            <td>2021</td>
-          </tr>
-        </tbody>
-      </table>
+    {{-- Search Bar (belum aktif fungsinya) --}}
+    <input type="text" class="search-bar" placeholder="Cari ...">
+
+    {{-- Table --}}
+    <div class="table-responsive">
+        <table>
+            <thead>
+                <tr>
+                    <th>id_buku</th>
+                    <th>judul</th>
+                    <th>penulis</th>
+                    <th>kategori</th>
+                    <th>statusBuku</th>
+                    <th>penerbit</th>
+                    <th>tahunTerbit</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($donasis as $buku)
+                    <tr>
+                        <td>{{ $buku->id }}</td>
+                        <td>{{ $buku->judul_buku }}</td>
+                        <td>-</td> {{-- Penulis belum tersedia --}}
+                        <td>{{ $buku->kategori }}</td>
+                        <td>{{ ucfirst($buku->status) }}</td>
+                        <td>-</td> {{-- Penerbit belum tersedia --}}
+                        <td>{{ \Carbon\Carbon::parse($buku->tanggal)->format('Y') }}</td>
+                    </tr>
+                @endforeach
+
+                @if($donasis->isEmpty())
+                    <tr>
+                        <td colspan="7" class="text-center">Belum ada buku yang tersedia.</td>
+                    </tr>
+                @endif
+            </tbody>
+        </table>
     </div>
 
-    <button class="btn-kembali">Kembali</button>
+    {{-- Tombol Kembali --}}
+    <a href="{{ route('dashboard.penerima') }}">
+        <button class="btn-kembali">Kembali</button>
+    </a>
 
+    {{-- Bottom Nav --}}
     <div class="bottom-nav">
-      <a href="#"><i class="fas fa-home"></i></a>
-      <a href="#"><i class="fas fa-bell"></i></a>
-      <a href="#"><i class="fas fa-user"></i></a>
+        <a href="#"><i class="fas fa-home"></i></a>
+        <a href="#"><i class="fas fa-bell"></i></a>
+        <a href="#"><i class="fas fa-user"></i></a>
     </div>
-  </div>
-</body>
-</html>
+</div>
+@endsection

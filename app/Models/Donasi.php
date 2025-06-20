@@ -36,4 +36,11 @@ class Donasi extends Model
     {
         return $this->foto ? Storage::url($this->foto) : null;
     }
+    public function daftarBuku()
+{
+    // Ambil semua donasi buku yang sudah diterima
+    $donasis = Donasi::where('status', 'diterima')->get();
+
+    return view('dashboard.daftar_buku', compact('donasis'));
+}
 }

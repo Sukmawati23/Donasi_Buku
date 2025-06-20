@@ -31,7 +31,7 @@ class Buku extends Model
      */
     public function user()
     {
-        return null; // Paksa Laravel agar tidak menganggap ada relasi ke `user_id`
+        return $this->belongsTo(User::class); // Paksa Laravel agar tidak menganggap ada relasi ke `user_id`
     }
 
     public function donatur()
