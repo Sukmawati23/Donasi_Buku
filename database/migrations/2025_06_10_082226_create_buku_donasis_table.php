@@ -17,7 +17,7 @@ return new class extends Migration
             $table->timestamps();
 
             // Foreign keys
-            $table->foreign('buku_id')->references('id')->on('bukus')->onDelete('cascade');
+            $table->foreign('buku_id')->references('id')->on('bukus');
             $table->foreign('donasi_id')->references('id')->on('donasis')->onDelete('cascade');
 
             // Composite primary key

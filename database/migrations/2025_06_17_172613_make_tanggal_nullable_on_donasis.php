@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-       Schema::table('donasis', function (Blueprint $table) {
-        $table->date('tanggal')->nullable()->after('jumlah'); // pastikan 'jumlah' ada, atau sesuaikan urutannya
-    });
+        Schema::table('donasis', function (Blueprint $table) {
+            $table->date('tanggal')->nullable()->change(); // ← ubah, bukan tambah
+        });
     }
+
 
     /**
      * Reverse the migrations.
@@ -22,7 +23,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('donasis', function (Blueprint $table) {
-        $table->dropColumn('tanggal');
-    });
+            $table->dropColumn('tanggal');
+        });
     }
 };

@@ -12,17 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-        $table->string('tipe_akun')->default('donatur'); // atau 'penerima'
-    });
+            $table->string('tipe_akun')->default('donatur')->after('role');
+        });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            //
+            $table->dropColumn('tipe_akun');
         });
     }
 };
