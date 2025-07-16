@@ -11,18 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('bukus', function (Blueprint $table) {
-            $table->unsignedBigInteger('user_id')->nullable()->after('id');
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('kode_user')->after('id');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::table('bukus', function (Blueprint $table) {
-            $table->dropColumn('user_id');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('kode_user');
         });
     }
 };

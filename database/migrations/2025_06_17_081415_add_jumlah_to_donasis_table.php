@@ -12,9 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('donasis', function (Blueprint $table) {
-            //
+            $table->integer('jumlah')->after('user_id'); // atau after kolom yang tepat
         });
     }
+
 
     /**
      * Reverse the migrations.
@@ -22,7 +23,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('donasis', function (Blueprint $table) {
-            //
+            $table->dropColumn('jumlah');
         });
     }
 };
