@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\DonaturController;
 use App\Http\Controllers\DonasiController;
 use App\Http\Controllers\PenerimaController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Auth\LoginController;
 
 
 // Halaman Utama
@@ -36,7 +38,7 @@ Route::get('/login', [AuthController::class, 'showLoginForm'])
     ->name('login');
 Route::post('/login', [AuthController::class, 'login'])
     ->middleware('guest')
-    ->name('login.post');
+    ->name('login');
 
 // Register
 Route::get('/register', [AuthController::class, 'showRegisterForm'])
@@ -114,3 +116,12 @@ Route::get('penerima/daftar-buku', [PenerimaController::class, 'daftarBuku'])
     ->name('penerima.daftarBuku')
     ->middleware('auth');
 //Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+    Route::get('/admin/laporan', [AdminController::class, 'laporan'])->name('admin.laporan');
+    Route::get('/admin/laporan/pdf', [AdminController::class, 'exportPDF'])->name('admin.laporan.pdf');
+    Route::get('/admin/laporan/excel', [AdminController::class, 'exportExcel'])->name('admin.laporan.excel');
+    Route::get('/admin/pengajuan', [AdminController::class, 'pengajuan'])->name('admin.pengajuan');
+    Route::post('/admin/pengajuan/verifikasi/{id}', [AdminController::class, 'verifikasi'])->name('admin.verifikasi');
+});

@@ -4,6 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Buku;
+use App\Models\User;
+use App\Models\Penerima;
+
+
+
 
 class Pengajuan extends Model
 {
@@ -25,8 +31,13 @@ class Pengajuan extends Model
         return $this->belongsTo(Penerima::class, 'idPenerima');
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function buku()
     {
-        return $this->belongsTo(Buku::class, 'idBuku');
+        return $this->belongsTo(Buku::class);
     }
 }

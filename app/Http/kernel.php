@@ -4,10 +4,14 @@ namespace App\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
+
+
 class Kernel extends HttpKernel
 {
+    /**
+     * Middleware global
+     */
     protected $middleware = [
-        // Middleware global
         \App\Http\Middleware\TrustProxies::class,
         \Illuminate\Http\Middleware\HandleCors::class,
         \App\Http\Middleware\PreventRequestsDuringMaintenance::class,
@@ -16,6 +20,9 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
     ];
 
+    /**
+     * Middleware groups
+     */
     protected $middlewareGroups = [
         'web' => [
             \App\Http\Middleware\EncryptCookies::class,
@@ -33,9 +40,16 @@ class Kernel extends HttpKernel
         ],
     ];
 
+    /**
+     * Route middleware
+     */
     protected $routeMiddleware = [
+        // bawaan Laravel
         'auth' => \App\Http\Middleware\Authenticate::class,
+        'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
-        // tambahkan lainnya di sini sesuai kebutuhan
+
+        // tambahkan ini
+        'admin' => \App\Http\Middleware\AdminMiddleware::class,
     ];
 }

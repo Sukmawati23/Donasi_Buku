@@ -7,6 +7,8 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Registered;
+use App\Http\Controllers\Controller;
+
 
 class AuthController extends Controller
 {
@@ -56,16 +58,18 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
+            $user = Auth::user();
 
-            // Redirect langsung ke dashboard donatur
-            return redirect()->route('dashboard.donatur');
+            // Arahkan sesuai tipe akun
+            if ($user->tipe_akun === 'admin') {
+                return redirect()->route('admin.dashboard');
+            } else {
+                return redirect()->route('dashboard');
+            }
         }
 
-        return back()->withErrors([
-            'email' => 'Email atau password salah.',
-        ]);
+        return back()->with('error', 'Email atau password salah.');
     }
-
 
 
     // Proses logout
