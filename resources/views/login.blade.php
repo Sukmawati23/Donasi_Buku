@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8"> 
+    <meta charset="UTF-8">
     <title>Login Donasi Buku</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
     <style>
@@ -19,32 +19,36 @@
 
         .logo img {
             width: 80px;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
 
         .container {
             text-align: center;
-            width: 50%;
+            width: 100%;
+            max-width: 420px;
+            padding: 20px;
         }
 
-        .container h2 {
-            font-size: 25px; 
+        h2 {
+            margin-bottom: 10px;
+            font-size: 24px;
         }
 
         .desc {
-            font-size: 15px; 
+            font-size: 14px;
+            margin-bottom: 20px;
         }
 
         input {
-            width: 47%;
-            padding: 9px;
+            width: 96%;
+            padding: 10px;
+            margin-bottom: 12px;
             border-radius: 8px;
-            border: 1px solid #ccc;
-            margin-top: 10px;
+            border: none;
             background-color: white;
             color: #000049;
             font-weight: bold;
-            margin: 6px 0;
+            font-family: 'Poppins', sans-serif;
         }
 
         input::placeholder {
@@ -52,17 +56,26 @@
             opacity: 0.9;
         }
 
+        .forgot {
+            text-align: left;
+            font-size: 12px;
+            display: block;
+            margin: -8px 0 16px 4px;
+            color: white;
+            text-decoration: none;
+        }
+
         button {
-            width: 50%;
+            width: 100%;
             padding: 10px;
             border-radius: 8px;
             border: none;
-            margin-top: 10px;
             background-color: white;
             color: #00008B;
             font-weight: bold;
+            font-family: 'Poppins', sans-serif;
             cursor: pointer;
-            margin: 6px 0;
+            margin-bottom: 12px;
         }
 
         button:hover {
@@ -70,14 +83,12 @@
         }
 
         .divider {
-            margin: 6px 0;
             display: flex;
             align-items: center;
-            justify-content: center;
+            text-align: center;
+            margin: 10px 0;
+            font-size: 13px;
             color: white;
-            font-size: 12px;
-            width: 320px; 
-            margin: 10px auto; 
         }
 
         .divider::before, .divider::after {
@@ -85,34 +96,7 @@
             flex: 1;
             height: 1px;
             background: white;
-            margin: 0 5px;
-        }
-
-        .forgot {
-            display: block;
-            width: 49%;
-            text-align: left;
-            font-size: 12px;
-            margin: 5px auto 10px auto;
-            color: white; 
-            text-decoration: none; 
-        }
-
-        .forgot:hover {
-            text-decoration: underline;
-        }
-
-        .message {
-            font-size: 13px;
-            margin-bottom: 10px;
-        }
-
-        .error {
-            color: pink;
-        }
-
-        .success {
-            color: lightgreen;
+            margin: 0 10px;
         }
     </style>
 </head>
@@ -120,32 +104,29 @@
     <div class="logo">
         <img src="{{ asset('LOGO-SDB.png') }}" alt="Logo">
     </div>
+
     <div class="container">
         <h2>Masuk atau Daftar Akun</h2>
         <p class="desc">Silakan masuk akun Anda atau buat akun baru untuk memulai donasi buku</p>
 
-        @if ($errors->any())
-            <div class="message error">
-                @foreach ($errors->all() as $error)
-                    <div>{{ $error }}</div>
-                @endforeach
-            </div>
-        @endif
-
-        @if (session('status'))
-            <div class="message success">
-                {{ session('status') }}
-            </div>
+        @if (session('error'))
+            <div style="color: red; margin-bottom: 10px;">{{ session('error') }}</div>
         @endif
 
         <form method="POST" action="{{ route('login') }}" autocomplete="off">
             @csrf
-            <input type="email" name="email" placeholder="Email" required>
-            <input type="password" name="password" placeholder="Password" required>
+            <input type="email" name="email" placeholder="Email" autocomplete="off" required>
+            <input type="password" name="password" placeholder="Password" autocomplete="new-password" required>
+
             <a href="{{ route('password.request') }}" class="forgot">Lupa kata sandi?</a>
+
             <button type="submit">Masuk</button>
+
             <div class="divider">atau</div>
-            <button type="button" onclick="window.location.href='{{ route('daftar') }}'">Daftar</button>
+
+            <a href="{{ route('daftar') }}">
+                <button type="button">Daftar</button>
+            </a>
         </form>
     </div>
 </body>

@@ -120,11 +120,19 @@
         <button class="btn-kembali">Kembali</button>
     </a>
 
-    {{-- Bottom Nav --}}
-    <div class="bottom-nav">
-        <a href="#"><i class="fas fa-home"></i></a>
-        <a href="#"><i class="fas fa-bell"></i></a>
-        <a href="#"><i class="fas fa-user"></i></a>
-    </div>
+     {{-- Navigasi bawah --}}
+    <nav class="navbar fixed-bottom navbar-light bg-light border-top">
+        <div class="container d-flex justify-content-around">
+            <a href="{{ route('dashboard.donatur') }}" class="text-primary">
+                <i class="fas fa-home fa-lg"></i>
+            </a>
+            <a href="#" onclick="event.preventDefault(); alert('Fitur notifikasi akan datang!')">
+                <i class="fas fa-bell fa-lg text-secondary"></i>
+            </a>
+            <a href="#" onclick="event.preventDefault(); alert('Fitur profil akan datang!')">
+                <i class="fas fa-user fa-lg text-secondary"></i>
+            </a>
+        </div>
+    </nav>
 </div>
 @endsection

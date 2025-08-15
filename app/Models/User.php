@@ -19,6 +19,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'telepon',
         'role',      // ✅ penting: agar bisa menyimpan role donatur/penerima/admin
         'id_card',   // ✅ jika kamu gunakan ID Card dari form
+        'is_admin'
     ];
 
     protected $hidden = [
